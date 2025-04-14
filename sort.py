@@ -18,6 +18,31 @@ def remover_nome(lista, nome):
             return
     print(f"Nome '{nome}' não encontrado na lista.")
 
+def remover_nome(lista, nome, tipo='completo'):
+    indice_para_remover = None
+    
+    for i in range(len(lista)):
+        nome_completo = lista[i][0]
+        partes = nome_completo.split()
+        primeiro_nome, ultimo_nome = partes
+        
+        if (tipo == 'primeiro' and primeiro_nome == nome) or \
+           (tipo == 'ultimo' and ultimo_nome == nome):
+            indice_para_remover = i
+            break
+    
+    if indice_para_remover is not None:
+        nome_removido = lista[indice_para_remover][0]
+        del lista[indice_para_remover]
+    else:
+        if tipo == 'completo':
+            print(f"Nome '{nome}' não encontrado na lista.")
+        elif tipo == 'primeiro':
+            print(f"Primeiro nome '{nome}' não encontrado na lista.")
+        else:
+            print(f"Último nome '{nome}' não encontrado na lista.")
+
+
 def ordenar_nomes(lista, por='primeiro'):
     def comparar_nomes(item1, item2):
         nome1, _ = item1
@@ -52,8 +77,18 @@ def main():
             adicionar_nome(lista_nomes, nome, idade)
         
         elif acao == 'r':
-            nome = input("Digite o nome a remover (Primeiro Último): ")
-            remover_nome(lista_nomes, nome)
+            print("1 - Remover por primeiro nome")
+            print("2 - Remover por último nome")
+            opcao = input("Escolha uma opção: ")
+            
+            if opcao == '1':
+                nome = input("Digite o primeiro nome a remover: ")
+                remover_nome(lista_nomes, nome, 'primeiro')
+            elif opcao == '2':
+                nome = input("Digite o último nome a remover: ")
+                remover_nome(lista_nomes, nome, 'ultimo')
+            else:
+                print("Opção inválida.")
         
         elif acao == 'l':
             tipo_listagem = input("Listar por primeiro nome (p) ou último nome (u)? ").lower()
